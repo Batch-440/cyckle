@@ -34,7 +34,18 @@ class Booking < ApplicationRecord
   has_many :notifications
   has_many :messages
 
-  validates :start_date,        presence: true
-  validates :end_date,          presence: true
-  validates :total_price_cents, presence: true
+  validates :start_date,                 presence: true
+  validates :end_date,                   presence: true
+  validates :total_price_cents,          presence: true
+  validate  :check_if_bike_is_available, on: :create
+
+  private
+
+  # Add a validation: a booking should not be valid
+  # if there is already a an accepted booking on the bike between the start_date and the end_date
+  def check_if_bike_is_available
+    # TODO: implement this validation
+    # errors.add(:bike_id, 'is not available') unless bike.bookings.where('start_date >= ? AND end_date <= ?',
+                                                                        # start_date, start_date).empty?
+  end
 end

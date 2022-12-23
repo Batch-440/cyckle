@@ -38,4 +38,14 @@ RSpec.describe Booking, type: :model do
     it { should validate_presence_of(:end_date) }
     it { should validate_presence_of(:total_price_cents) }
   end
+
+  describe 'custom validations' do
+    let(:existing_booking) { create(:booking, start_date: '11-06-2023', end_date: '14-06-2023') }
+    let(:new_booking)      { build(:booking, start_date: '10-06-2023', end_date: '13-06-2023') }
+
+    it 'should not be valid on create when a bike is not available' do
+      expect(new_booking.valid?).to be(false)
+      expect(new_booking.errors.full_messages).should include('is not available')
+    end
+  end
 end

@@ -96,5 +96,17 @@ RSpec.describe Bike, type: :model do
         expect(bike.average_rating).to eq(3)
       end
     end
+
+    describe '#unavailable_dates' do
+      before do
+        bike.bookings << create(:booking, bike:, start_date: '11-06-2023', end_date: '15-06-2023')
+        bike.bookings << create(:booking, bike:, start_date: '19-06-2023', end_date: '25-06-2023')
+      end
+
+      it 'should return all the unavailable dates' do
+        expect(bike.unavailable_dates).to eq([{ from: Date.new(2023, 0o6, 11), to: Date.new(2023, 0o6, 15) },
+                                              { from: Date.new(2023, 0o6, 19), to: Date.new(2023, 0o6, 25) }])
+      end
+    end
   end
 end

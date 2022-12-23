@@ -15,7 +15,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       get '/current_user', to: 'current_user#index'
 
-      resources :bikes, only: %i[index show create update destroy]
+      resources :bikes, only: %i[index show create update destroy] do
+        resources :bookings, only: %i[create]
+      end
+      resources :bookings, only: %i[index show update destroy]
     end
   end
 
